@@ -1,6 +1,6 @@
 import { supabase } from '@/lib/supabase';
 
-export const API_BASE_URL = 'https://biggest-project-1.onrender.com/api';
+export const API_BASE_URL = 'https://biggest-project-1-dyp0.onrender.com/api';
 
 /**
  * Helper to get headers with Auth Token
