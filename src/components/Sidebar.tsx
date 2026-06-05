@@ -7,11 +7,16 @@ import { Nav } from 'react-bootstrap';
 import {
     FaTachometerAlt, FaChalkboardTeacher, FaUserGraduate,
     FaBook, FaClipboardList, FaBullhorn, FaCalendarAlt,
-    FaStickyNote, FaMarker, FaBus, FaCog, FaSignOutAlt, FaRupeeSign
+    FaStickyNote, FaMarker, FaBus, FaCog, FaSignOutAlt, FaRupeeSign, FaTimes
 } from 'react-icons/fa';
 import { supabase } from '@/lib/supabase';
 
-const Sidebar = () => {
+interface SidebarProps {
+    isOpen: boolean;
+    toggleSidebar: () => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
     const pathname = usePathname();
 
     const menuItems = [
@@ -36,19 +41,29 @@ const Sidebar = () => {
     };
 
     return (
-        <div className="sidebar">
-            <div className="sidebar-brand">
-                <Image
-                    src="/school_logo.png"
-                    alt="Ayesha Ali Academy"
-                    width={48}
-                    height={48}
-                    className="brand-logo"
-                />
-                <div className="brand-text">
-                    <h3 className="brand-name">Ayesha Ali Academy</h3>
-                    <p className="brand-tagline">Above and Ahead</p>
+        <div className={`sidebar ${isOpen ? 'show' : 'collapsed'}`}>
+            <div className="sidebar-brand d-flex align-items-center justify-content-between w-100">
+                <div className="d-flex align-items-center gap-3">
+                    <Image
+                        src="/school_logo.png"
+                        alt="Ayesha Ali Academy"
+                        width={48}
+                        height={48}
+                        className="brand-logo"
+                    />
+                    <div className="brand-text">
+                        <h3 className="brand-name">Ayesha Ali Academy</h3>
+                        <p className="brand-tagline">Above and Ahead</p>
+                    </div>
                 </div>
+                <button
+                    onClick={toggleSidebar}
+                    className="btn btn-transparent p-0 border-0 text-white d-lg-none"
+                    style={{ fontSize: '1.25rem', opacity: 0.8, background: 'transparent' }}
+                    aria-label="Close Sidebar"
+                >
+                    <FaTimes />
+                </button>
             </div>
             <Nav className="flex-column">
                 {menuItems.map((item, index) => (

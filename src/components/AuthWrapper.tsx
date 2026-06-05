@@ -10,8 +10,22 @@ import Sidebar from '@/components/Sidebar';
 export default function AuthWrapper({ children }: { children: React.ReactNode }) {
     const [loading, setLoading] = useState(true);
     const [authenticated, setAuthenticated] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(true);
     const router = useRouter();
     const pathname = usePathname();
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 992) {
+                setSidebarOpen(false);
+            } else {
+                setSidebarOpen(true);
+            }
+        };
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -73,10 +87,26 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
     }
 
     return (
-        <div className="d-flex">
-            <Sidebar />
-            <div className="main-wrapper flex-grow-1">
-                <Navbar />
+        <div className="d-flex position-relative">
+            <Sidebar isOpen={sidebarOpen} toggleSidebar={() => setSidebarOpen(false)} />
+            {sidebarOpen && (
+                <div 
+                    className="sidebar-backdrop d-lg-none" 
+                    onClick={() => setSidebarOpen(false)}
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                        zIndex: 999,
+                        cursor: 'pointer'
+                    }}
+                />
+            )}
+            <div className={`main-wrapper flex-grow-1 ${!sidebarOpen ? 'expanded' : ''}`}>
+                <Navbar onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} isSidebarOpen={sidebarOpen} />
                 <div className="content-container">
                     {children}
                 </div>

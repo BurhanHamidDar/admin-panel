@@ -2,11 +2,16 @@
 import React from 'react';
 import Image from 'next/image';
 import { Dropdown } from 'react-bootstrap';
-import { FaUser } from 'react-icons/fa';
+import { FaUser, FaBars, FaSignOutAlt } from 'react-icons/fa';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 
-const Navbar = () => {
+interface NavbarProps {
+    onToggleSidebar: () => void;
+    isSidebarOpen: boolean;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen }) => {
     const router = useRouter();
 
     const handleLogout = async () => {
@@ -16,7 +21,15 @@ const Navbar = () => {
 
     return (
         <div className="top-navbar d-flex justify-content-between align-items-center">
-            <div className="d-flex align-items-center gap-3">
+            <div className="d-flex align-items-center gap-2">
+                <button
+                    onClick={onToggleSidebar}
+                    className="btn btn-transparent p-1 border-0 d-flex align-items-center justify-content-center me-1"
+                    style={{ fontSize: '1.25rem', color: '#111827', background: 'transparent' }}
+                    aria-label="Toggle Sidebar"
+                >
+                    <FaBars />
+                </button>
                 <Image
                     src="/school_logo.png"
                     alt="AAA"
@@ -32,6 +45,15 @@ const Navbar = () => {
             </div>
 
             <div className="user-profile d-flex align-items-center gap-3">
+                <button
+                    onClick={handleLogout}
+                    className="btn btn-outline-danger btn-sm d-flex align-items-center gap-2 px-3 py-2"
+                    style={{ borderRadius: '10px', fontWeight: 600 }}
+                >
+                    <FaSignOutAlt />
+                    <span className="d-none d-sm-inline">Logout</span>
+                </button>
+
                 <Dropdown align="end">
                     <Dropdown.Toggle
                         variant="transparent"
