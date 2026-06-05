@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
-import { Container, Row, Col, Card, Form, Button, Alert, Spinner } from 'react-bootstrap';
+import Image from 'next/image';
+import { Card, Form, Button, Alert, Spinner } from 'react-bootstrap';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 
@@ -25,7 +26,6 @@ export default function LoginPage() {
             if (error) throw error;
 
             if (data.user) {
-                // Verify Role
                 const { data: profile } = await supabase
                     .from('profiles')
                     .select('role')
@@ -34,11 +34,11 @@ export default function LoginPage() {
 
                 if (profile?.role !== 'admin' && profile?.role !== 'super_admin') {
                     await supabase.auth.signOut();
-                    setError('Access Denied. Please login in the Teachers/Student app.');
+                    setError('Access denied. Please use the Teachers or Student app.');
                     return;
                 }
 
-                router.push('/'); // Redirect to Dashboard
+                router.push('/');
             }
         } catch (err: any) {
             setError(err.message || 'Failed to login');
@@ -48,54 +48,58 @@ export default function LoginPage() {
     };
 
     return (
-        <Container fluid className="d-flex align-items-center justify-content-center min-vh-100 bg-dark-navy">
-            <Row className="w-100 justify-content-center">
-                <Col md={5} lg={4}>
-                    <Card className="bg-dark text-white border-0 shadow-lg">
-                        <Card.Body className="p-5">
-                            <div className="text-center mb-4">
-                                <h3 className="fw-bold">Admin Portal</h3>
-                                <p className="text-muted">Sign in to manage your school</p>
-                            </div>
+        <div className="login-page">
+            <Card className="login-card">
+                <div className="login-header">
+                    <Image
+                        src="/school_logo.png"
+                        alt="Ayesha Ali Academy"
+                        width={80}
+                        height={80}
+                        className="login-logo"
+                    />
+                    <h1 className="login-school-name">Ayesha Ali Academy</h1>
+                    <p className="login-tagline">Above and Ahead</p>
+                    <span className="login-portal-label">Admin Portal</span>
+                </div>
 
-                            {error && <Alert variant="danger">{error}</Alert>}
+                <div className="login-body">
+                    {error && <Alert variant="danger" className="mb-3">{error}</Alert>}
 
-                            <Form onSubmit={handleLogin}>
-                                <Form.Group className="mb-3" controlId="formEmail">
-                                    <Form.Label>Email Address</Form.Label>
-                                    <Form.Control
-                                        type="email"
-                                        placeholder="Enter email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        required
-                                        className="bg-secondary text-white border-0"
-                                    />
-                                </Form.Group>
+                    <Form onSubmit={handleLogin}>
+                        <Form.Group className="mb-3" controlId="formEmail">
+                            <Form.Label>Email Address</Form.Label>
+                            <Form.Control
+                                type="email"
+                                placeholder="admin@school.edu"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
+                        </Form.Group>
 
-                                <Form.Group className="mb-4" controlId="formPassword">
-                                    <Form.Label>Password</Form.Label>
-                                    <Form.Control
-                                        type="password"
-                                        placeholder="Password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        required
-                                        className="bg-secondary text-white border-0"
-                                    />
-                                </Form.Group>
+                        <Form.Group className="mb-4" controlId="formPassword">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control
+                                type="password"
+                                placeholder="Enter your password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                        </Form.Group>
 
-                                <Button variant="primary" type="submit" className="w-100 py-2 fw-bold" disabled={loading}>
-                                    {loading ? <Spinner animation="border" size="sm" /> : 'Sign In'}
-                                </Button>
-                            </Form>
-                        </Card.Body>
-                    </Card>
-                    <div className="text-center mt-3 text-muted">
-                        <small>School Management System v1.0</small>
-                    </div>
-                </Col>
-            </Row>
-        </Container>
+                        <Button variant="primary" type="submit" className="w-100 btn-aaa py-2" disabled={loading}>
+                            {loading ? <Spinner animation="border" size="sm" /> : 'Sign In'}
+                        </Button>
+                    </Form>
+                </div>
+
+                <div className="login-footer">
+                    <p>Kanipora Kulgam, J&amp;K &middot; Estd. 2014</p>
+                    <p className="developer-credit">Developed by <strong>Burhan Hamid</strong></p>
+                </div>
+            </Card>
+        </div>
     );
 }

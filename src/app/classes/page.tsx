@@ -1,10 +1,12 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { Container, Card, Button, Form, Row, Col, Alert, Accordion, Modal, useAccordionButton } from 'react-bootstrap';
+import { Container, Card, Button, Form, Alert, Accordion, Modal, useAccordionButton } from 'react-bootstrap';
 import { FaPlus, FaTrash, FaUserTie } from 'react-icons/fa';
 import { fetchClasses, createClass, createSection, deleteClass, fetchClassTeachers } from '@/services/api';
 import StudentListModal from '@/components/StudentListModal';
 import AssignTeacherModal from '@/components/AssignTeacherModal';
+import PageHeader from '@/components/PageHeader';
+import BrandFooter from '@/components/BrandFooter';
 
 export default function ClassesPage() {
     const [classes, setClasses] = useState<any[]>([]);
@@ -12,19 +14,16 @@ export default function ClassesPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
-    // Modals
     const [showClassModal, setShowClassModal] = useState(false);
     const [showSectionModal, setShowSectionModal] = useState(false);
     const [selectedClassId, setSelectedClassId] = useState('');
     const [newClassName, setNewClassName] = useState('');
     const [newSectionName, setNewSectionName] = useState('');
 
-    // View Students Modal
     const [showStudentList, setShowStudentList] = useState(false);
     const [studentListTitle, setStudentListTitle] = useState('');
     const [studentFilters, setStudentFilters] = useState<any>(null);
 
-    // Assign Teacher Modal
     const [showAssignModal, setShowAssignModal] = useState(false);
     const [assignTarget, setAssignTarget] = useState({ classId: '', sectionId: '', className: '', sectionName: '' });
 
@@ -77,7 +76,7 @@ export default function ClassesPage() {
             await createSection(selectedClassId, newSectionName);
             setNewSectionName('');
             setShowSectionModal(false);
-            loadData(); // Refresh to show new section
+            loadData();
         } catch (err: any) {
             alert(err.message);
         }
@@ -96,29 +95,34 @@ export default function ClassesPage() {
 
     return (
         <Container fluid>
-            <div className="d-flex justify-content-between align-items-center mb-4">
-                <h2 className="text-white fw-bold">Classes & Sections</h2>
-                <Button variant="primary" onClick={() => setShowClassModal(true)}>
-                    <FaPlus className="me-2" /> Add New Class
-                </Button>
-            </div>
+            <PageHeader
+                title="Classes & Sections"
+                subtitle="Organize classes, sections and homeroom teachers"
+                action={
+                    <Button variant="primary" onClick={() => setShowClassModal(true)}>
+                        <FaPlus className="me-2" /> Add Class
+                    </Button>
+                }
+            />
 
             {error && <Alert variant="danger">{error}</Alert>}
 
             <Accordion defaultActiveKey="0">
                 {classes.map((cls, idx) => (
-                    <Accordion.Item eventKey={idx.toString()} key={cls.id} className="bg-dark-navy mb-3 border-0 rounded overflow-hidden">
-                        <div className="bg-dark-navy text-white p-3 d-flex justify-content-between align-items-center">
-                            <span className="fw-bold fs-5" style={{ cursor: 'pointer' }} onClick={(e: any) => {
-                                // Find the button trigger programmatically or use state to control
-                                // Simpler: Just make the title clickable to toggle
-                                const btn = document.getElementById(`acc-btn-${cls.id}`);
-                                if (btn) btn.click();
-                            }}>
+                    <Accordion.Item eventKey={idx.toString()} key={cls.id} className="app-card mb-3">
+                        <div className="p-3 d-flex justify-content-between align-items-center border-bottom">
+                            <span
+                                className="fw-bold fs-5"
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => {
+                                    const btn = document.getElementById(`acc-btn-${cls.id}`);
+                                    if (btn) btn.click();
+                                }}
+                            >
                                 {cls.name}
                             </span>
-                            <div className="d-flex align-items-center">
-                                <Button variant="outline-info" size="sm" className="me-3" onClick={() => handleViewStudents(cls.id, cls.name)}>
+                            <div className="d-flex align-items-center gap-2">
+                                <Button variant="outline-primary" size="sm" onClick={() => handleViewStudents(cls.id, cls.name)}>
                                     View Students
                                 </Button>
                                 <CustomAccordionToggle eventKey={idx.toString()} id={cls.id}>
@@ -126,7 +130,7 @@ export default function ClassesPage() {
                                 </CustomAccordionToggle>
                             </div>
                         </div>
-                        <Accordion.Body className="bg-dark text-white">
+                        <Accordion.Body>
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <h6 className="mb-0 text-muted">Sections</h6>
                                 <Button variant="outline-success" size="sm" onClick={() => { setSelectedClassId(cls.id); setShowSectionModal(true); }}>
@@ -138,11 +142,11 @@ export default function ClassesPage() {
                                     cls.sections.map((sec: any) => {
                                         const hrTeacher = getHRTeacher(cls.id, sec.id);
                                         return (
-                                            <div key={sec.id} className="px-3 py-2 bg-secondary bg-opacity-25 rounded border border-secondary d-flex align-items-center justify-content-between">
-                                                <div className="d-flex align-items-center gap-3">
+                                            <div key={sec.id} className="px-3 py-3 rounded border d-flex align-items-center justify-content-between" style={{ background: '#f8fafc' }}>
+                                                <div className="d-flex align-items-center gap-3 flex-wrap">
                                                     <span className="fw-bold fs-5">{sec.name}</span>
                                                     {hrTeacher ? (
-                                                        <span className="badge bg-success text-white">
+                                                        <span className="badge bg-success">
                                                             <FaUserTie className="me-1" /> HR: {hrTeacher}
                                                         </span>
                                                     ) : (
@@ -150,10 +154,10 @@ export default function ClassesPage() {
                                                     )}
                                                 </div>
                                                 <div className="d-flex gap-2">
-                                                    <Button variant="outline-light" size="sm" onClick={() => handleAssignTeacher(cls.id, sec.id, cls.name, sec.name)}>
+                                                    <Button variant="outline-primary" size="sm" onClick={() => handleAssignTeacher(cls.id, sec.id, cls.name, sec.name)}>
                                                         {hrTeacher ? 'Change HR' : 'Assign HR'}
                                                     </Button>
-                                                    <Button variant="link" size="sm" className="text-info text-decoration-none" onClick={() => handleViewStudents(cls.id, cls.name, sec.id, sec.name)}>
+                                                    <Button variant="link" size="sm" className="text-decoration-none" onClick={() => handleViewStudents(cls.id, cls.name, sec.id, sec.name)}>
                                                         View Students
                                                     </Button>
                                                 </div>
@@ -164,8 +168,8 @@ export default function ClassesPage() {
                                     <small className="text-muted fst-italic">No sections added yet.</small>
                                 )}
                             </div>
-                            <div className="mt-4 border-top border-secondary pt-3 text-end">
-                                <Button variant="danger" size="sm" onClick={() => handleDeleteClass(cls.id, cls.name)}>
+                            <div className="mt-4 border-top pt-3 text-end">
+                                <Button variant="outline-danger" size="sm" onClick={() => handleDeleteClass(cls.id, cls.name)}>
                                     <FaTrash className="me-1" /> Delete Class
                                 </Button>
                             </div>
@@ -174,47 +178,46 @@ export default function ClassesPage() {
                 ))}
             </Accordion>
 
-            {/* Create Class Modal */}
+            {classes.length === 0 && !loading && (
+                <Alert variant="light" className="text-center border">No classes created yet.</Alert>
+            )}
+
             <Modal show={showClassModal} onHide={() => setShowClassModal(false)} centered>
-                <Modal.Header closeButton className="bg-dark text-white border-secondary">
+                <Modal.Header closeButton>
                     <Modal.Title>Create New Class</Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="bg-dark text-white">
+                <Modal.Body>
                     <Form.Label>Class Name</Form.Label>
                     <Form.Control
                         value={newClassName}
                         onChange={(e) => setNewClassName(e.target.value)}
                         placeholder="e.g. Class 11"
-                        className="bg-dark border-secondary text-white"
                     />
                 </Modal.Body>
-                <Modal.Footer className="bg-dark border-secondary">
+                <Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowClassModal(false)}>Cancel</Button>
                     <Button variant="primary" onClick={handleCreateClass} disabled={!newClassName}>Create</Button>
                 </Modal.Footer>
             </Modal>
 
-            {/* Create Section Modal */}
             <Modal show={showSectionModal} onHide={() => setShowSectionModal(false)} centered>
-                <Modal.Header closeButton className="bg-dark text-white border-secondary">
+                <Modal.Header closeButton>
                     <Modal.Title>Add Section</Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="bg-dark text-white">
+                <Modal.Body>
                     <Form.Label>Section Name</Form.Label>
                     <Form.Control
                         value={newSectionName}
                         onChange={(e) => setNewSectionName(e.target.value)}
                         placeholder="e.g. A"
-                        className="bg-dark border-secondary text-white"
                     />
                 </Modal.Body>
-                <Modal.Footer className="bg-dark border-secondary">
+                <Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowSectionModal(false)}>Cancel</Button>
                     <Button variant="primary" onClick={handleCreateSection} disabled={!newSectionName}>Create</Button>
                 </Modal.Footer>
             </Modal>
 
-            {/* Student List Modal */}
             <StudentListModal
                 show={showStudentList}
                 handleClose={() => setShowStudentList(false)}
@@ -222,7 +225,6 @@ export default function ClassesPage() {
                 filters={studentFilters}
             />
 
-            {/* Assign Teacher Modal */}
             <AssignTeacherModal
                 show={showAssignModal}
                 handleClose={() => setShowAssignModal(false)}
@@ -232,6 +234,7 @@ export default function ClassesPage() {
                 sectionName={assignTarget.sectionName}
                 onSuccess={loadData}
             />
+            <BrandFooter />
         </Container>
     );
 }
@@ -242,7 +245,7 @@ function CustomAccordionToggle({ children, eventKey, id }: any) {
         <Button
             type="button"
             id={`acc-btn-${id}`}
-            variant="outline-light"
+            variant="outline-secondary"
             size="sm"
             onClick={decoratedOnClick}
         >

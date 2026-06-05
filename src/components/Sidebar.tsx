@@ -1,12 +1,13 @@
 "use client";
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Nav } from 'react-bootstrap';
 import {
     FaTachometerAlt, FaChalkboardTeacher, FaUserGraduate,
     FaBook, FaClipboardList, FaBullhorn, FaCalendarAlt,
-    FaStickyNote, FaMarker, FaBus, FaCog, FaSignOutAlt
+    FaStickyNote, FaMarker, FaBus, FaCog, FaSignOutAlt, FaRupeeSign
 } from 'react-icons/fa';
 import { supabase } from '@/lib/supabase';
 
@@ -24,19 +25,30 @@ const Sidebar = () => {
         { name: 'Notice Board', path: '/notices', icon: <FaBullhorn /> },
         { name: 'Syllabus', path: '/syllabus', icon: <FaStickyNote /> },
         { name: 'Exams & Results', path: '/exams', icon: <FaMarker /> },
+        { name: 'Fees', path: '/fees', icon: <FaRupeeSign /> },
         { name: 'Transport', path: '/transport', icon: <FaBus /> },
         { name: 'Settings', path: '/settings', icon: <FaCog /> },
     ];
 
     const handleLogout = async () => {
         await supabase.auth.signOut();
-        window.location.href = '/login'; // Force reload to clear any state
+        window.location.href = '/login';
     };
 
     return (
         <div className="sidebar">
-            <div className="sidebar-header">
-                <h3>School Admin</h3>
+            <div className="sidebar-brand">
+                <Image
+                    src="/school_logo.png"
+                    alt="Ayesha Ali Academy"
+                    width={48}
+                    height={48}
+                    className="brand-logo"
+                />
+                <div className="brand-text">
+                    <h3 className="brand-name">Ayesha Ali Academy</h3>
+                    <p className="brand-tagline">Above and Ahead</p>
+                </div>
             </div>
             <Nav className="flex-column">
                 {menuItems.map((item, index) => (
@@ -44,19 +56,21 @@ const Sidebar = () => {
                         key={index}
                         as={Link}
                         href={item.path}
-                        active={pathname === item.path}
-                        className="d-flex align-items-center mb-2 text-white-50 hover-text-white"
+                        active={pathname === item.path || (item.path !== '/' && pathname.startsWith(item.path))}
+                        className="d-flex align-items-center"
                     >
                         {item.icon}
-                        <span className="ms-2">{item.name}</span>
+                        <span>{item.name}</span>
                     </Nav.Link>
                 ))}
-                <div className="mt-auto">
-                    <Nav.Link className="text-danger pointer" onClick={handleLogout} style={{ cursor: 'pointer' }}>
-                        <FaSignOutAlt /> <span className="ms-2">Logout</span>
-                    </Nav.Link>
-                </div>
+                <Nav.Link className="nav-logout mt-2" onClick={handleLogout} style={{ cursor: 'pointer' }}>
+                    <FaSignOutAlt />
+                    <span>Logout</span>
+                </Nav.Link>
             </Nav>
+            <div className="sidebar-footer">
+                <p className="developer-credit">Developed by <strong>Burhan Hamid</strong></p>
+            </div>
         </div>
     );
 };

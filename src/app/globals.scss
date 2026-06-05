@@ -1,92 +1,202 @@
-// Theme Colors
-$primary: #3b82f6; // A brighter blue
-$secondary: #64748b;
+// Ayesha Ali Academy — Admin Panel Theme
+// Aligned with student-app / teacher-app design tokens
+
+$primary: #111827;
+$secondary: #6b7280;
 $success: #10b981;
 $info: #0ea5e9;
 $warning: #f59e0b;
 $danger: #ef4444;
-$light: #f1f5f9;
-$dark: #0f172a;
+$light: #f8fafc;
+$dark: #111827;
 
-// Body & Paper
-$body-bg: #0f172a; // Slate 900
-$body-color: #cbd5e1; // Slate 300
+$body-bg: #f8fafc;
+$body-color: #111827;
 
-// Card
-$card-bg: #1e293b; // Slate 800
-$card-color: $body-color;
+$card-bg: #ffffff;
+$card-color: #111827;
 $card-border-width: 0;
-$card-cap-bg: $card-bg;
+$card-border-radius: 16px;
+$card-cap-bg: #ffffff;
 
-// Import Bootstrap
+$input-bg: #ffffff;
+$input-border-color: #e5e7eb;
+$input-color: #111827;
+$input-focus-border-color: #111827;
+$input-focus-box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.08);
+
+$border-radius: 12px;
+$border-radius-lg: 16px;
+$border-radius-sm: 8px;
+
+$link-color: #3b82f6;
+$link-hover-color: #2563eb;
+
+$nav-tabs-border-color: #e5e7eb;
+$nav-tabs-link-active-color: #111827;
+$nav-tabs-link-active-bg: #ffffff;
+$nav-tabs-link-active-border-color: #e5e7eb #e5e7eb #ffffff;
+
+$table-bg: transparent;
+$table-color: #111827;
+$table-border-color: #f1f5f9;
+$table-hover-bg: #f8fafc;
+
+$dropdown-bg: #ffffff;
+$dropdown-border-color: #e5e7eb;
+$dropdown-link-color: #111827;
+$dropdown-link-hover-bg: #f1f5f9;
+$dropdown-link-hover-color: #111827;
+
+$modal-content-bg: #ffffff;
+$modal-content-border-color: transparent;
+$modal-header-border-color: #e5e7eb;
+$modal-footer-border-color: #e5e7eb;
+
+$accordion-bg: #ffffff;
+$accordion-border-color: #e5e7eb;
+$accordion-button-bg: #f8fafc;
+$accordion-button-color: #111827;
+$accordion-button-active-bg: #f1f5f9;
+$accordion-button-active-color: #111827;
+
+$btn-border-radius: 12px;
+$btn-font-weight: 600;
+
 @import "../../node_modules/bootstrap/scss/bootstrap";
 
-// Custom Styles
+// ─── Base ────────────────────────────────────────────────────────────────────
+
 body {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  background-color: $body-bg;
+  color: $body-color;
+  -webkit-font-smoothing: antialiased;
 }
 
-// Sidebar Styles
+h1, h2, h3, h4, h5, h6,
+.page-title,
+.brand-name {
+  font-family: var(--font-oswald), sans-serif;
+  letter-spacing: 0.02em;
+}
+
+// ─── Sidebar ─────────────────────────────────────────────────────────────────
+
 .sidebar {
-  background-color: #1e293b; // Slate 800
+  background: linear-gradient(180deg, #111827 0%, #1f2937 100%);
   width: 260px;
   min-height: 100vh;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 1000;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 4px 0 24px rgba(17, 24, 39, 0.12);
   display: flex;
   flex-direction: column;
 
-  .sidebar-header {
-    padding: 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    background-color: #111827; // Darker header
+  .sidebar-brand {
+    padding: 20px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 14px;
 
-    h3 {
-      color: #fff;
-      font-size: 1.25rem;
-      margin: 0;
-      font-weight: 600;
+    .brand-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      min-width: 0;
+
+      .brand-name {
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 700;
+        margin: 0;
+        line-height: 1.2;
+      }
+
+      .brand-tagline {
+        color: #9ca3af;
+        font-size: 0.7rem;
+        margin: 2px 0 0;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
     }
   }
 
   .nav {
-    padding: 15px;
+    padding: 12px 10px;
     flex: 1;
     overflow-y: auto;
   }
 
   .nav-link {
-    color: #94a3b8; // Slate 400
-    padding: 12px 15px;
-    margin-bottom: 5px;
-    border-radius: 8px;
-    transition: all 0.2s ease;
+    color: #9ca3af;
+    padding: 10px 14px;
+    margin-bottom: 2px;
+    border-radius: 10px;
+    transition: all 0.15s ease;
     display: flex;
     align-items: center;
     gap: 12px;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    font-weight: 500;
 
     &:hover {
-      color: #f1f5f9;
-      background-color: rgba(255, 255, 255, 0.05);
+      color: #f9fafb;
+      background-color: rgba(255, 255, 255, 0.06);
     }
 
     &.active {
-      background-color: $primary;
+      background-color: rgba(255, 255, 255, 0.12);
       color: #fff;
-      box-shadow: 0 4px 6px -1px rgba($primary, 0.4);
+      font-weight: 600;
     }
 
     svg {
-      font-size: 1.2rem;
+      font-size: 1.05rem;
+      opacity: 0.85;
+    }
+
+    &.nav-logout {
+      color: #f87171;
+
+      &:hover {
+        background-color: rgba(239, 68, 68, 0.12);
+        color: #fca5a5;
+      }
+    }
+  }
+
+  .sidebar-footer {
+    padding: 16px 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: center;
+
+    .developer-credit {
+      color: #6b7280;
+      font-size: 0.7rem;
+      margin: 0;
+      line-height: 1.5;
+
+      strong {
+        color: #9ca3af;
+        font-weight: 600;
+      }
     }
   }
 }
 
-// Main Content Area
+// ─── Main Layout ─────────────────────────────────────────────────────────────
+
 .main-wrapper {
   margin-left: 260px;
   min-height: 100vh;
@@ -94,75 +204,664 @@ body {
 }
 
 .top-navbar {
-  background-color: #1e293b;
-  padding: 15px 30px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  padding: 14px 28px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  border-bottom: 1px solid #e5e7eb;
   position: sticky;
   top: 0;
   z-index: 900;
 
-  .form-control {
-    background-color: #0f172a;
-    border: 1px solid #334155;
+  .navbar-school-name {
+    font-family: var(--font-oswald), sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: $primary;
+    margin: 0;
+  }
+
+  .navbar-subtitle {
+    font-size: 0.75rem;
+    color: $secondary;
+    margin: 0;
+  }
+
+  .profile-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #111827, #374151);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: #fff;
+    font-size: 0.85rem;
+  }
 
-    &:focus {
-      border-color: $primary;
-      background-color: #0f172a;
-      color: #fff;
-      box-shadow: none;
-    }
+  .profile-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $primary;
+    line-height: 1.2;
+  }
 
-    &::placeholder {
-      color: #64748b;
-    }
+  .profile-role {
+    font-size: 0.72rem;
+    color: $secondary;
+  }
+
+  .dropdown-toggle::after {
+    display: none;
   }
 }
 
 .content-container {
-  padding: 30px;
+  padding: 28px 32px 40px;
 }
 
-// Widget Cards
-.stats-card {
+// ─── Page Elements ─────────────────────────────────────────────────────────────
+
+.page-header {
+  margin-bottom: 28px;
+
+  .page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: $primary;
+    margin: 0 0 4px;
+  }
+
+  .page-subtitle {
+    color: $secondary;
+    font-size: 0.9rem;
+    margin: 0;
+  }
+}
+
+.page-footer {
+  text-align: center;
+  padding: 24px 0 8px;
+  margin-top: 32px;
+  border-top: 1px solid #e5e7eb;
+
+  p {
+    color: #94a3b8;
+    font-size: 0.8rem;
+    margin: 0;
+  }
+
+  .developer-credit {
+    color: #64748b;
+    font-size: 0.75rem;
+    margin-top: 6px;
+
+    strong {
+      color: $primary;
+      font-weight: 600;
+    }
+  }
+}
+
+// ─── Cards ─────────────────────────────────────────────────────────────────────
+
+.app-card {
+  background: #ffffff;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+  color: $body-color;
+
+  .card-header {
+    background: transparent;
+    border-bottom: 1px solid #f1f5f9;
+    padding: 16px 20px;
+    font-weight: 600;
+    color: $primary;
+  }
+
+  .card-body {
+    padding: 20px;
+  }
+}
+
+.filter-card {
+  @extend .app-card;
+  margin-bottom: 20px;
+
+  .card-body {
+    padding: 16px 20px;
+  }
+}
+
+// ─── Stats Cards (Dashboard) ───────────────────────────────────────────────────
+
+.stat-card {
+  background: #ffffff;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  height: 100%;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  .card-body {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .stat-label {
+    color: $secondary;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 6px;
+  }
+
+  .stat-value {
+    font-family: var(--font-oswald), sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: $primary;
+    margin: 0;
+    line-height: 1;
+  }
+
   .icon-box {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+
+    &.blue { background: #e0f2fe; color: #0284c7; }
+    &.green { background: #dcfce7; color: #16a34a; }
+    &.purple { background: #e0e7ff; color: #4338ca; }
+    &.orange { background: #ffedd5; color: #ea580c; }
+    &.teal { background: #cffafe; color: #0891b2; }
+    &.red { background: #fee2e2; color: #dc2626; }
+    &.indigo { background: #f3e8ff; color: #9333ea; }
+  }
+}
+
+// ─── Quick Action Tiles ──────────────────────────────────────────────────────────
+
+.quick-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: #f1f5f9;
+  color: $primary;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: $primary;
+    color: #fff;
+    border-color: $primary;
+  }
+}
+
+.quick-action-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.quick-action-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 12px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  text-decoration: none;
+  color: $primary;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: #fff;
+    border-color: #d1d5db;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    color: $primary;
+    transform: translateY(-1px);
+  }
+
+  .tile-icon {
+    width: 44px;
+    height: 44px;
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+  }
+}
 
-    &.blue {
-      background: rgba($primary, 0.1);
-      color: $primary;
-    }
+// ─── Tables ────────────────────────────────────────────────────────────────────
 
-    &.green {
-      background: rgba($success, 0.1);
-      color: $success;
-    }
+.app-table {
+  margin: 0;
 
-    &.orange {
-      background: rgba($warning, 0.1);
-      color: $warning;
-    }
-
-    &.red {
-      background: rgba($danger, 0.1);
-      color: $danger;
-    }
+  thead th {
+    background: #f8fafc;
+    color: $secondary;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 12px 16px;
+    white-space: nowrap;
   }
 
-  h6 {
-    color: #94a3b8;
-    margin-bottom: 5px;
+  tbody td {
+    padding: 14px 16px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f1f5f9;
+    color: $body-color;
   }
 
-  h3 {
+  tbody tr:hover {
+    background-color: #f8fafc;
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+}
+
+.table-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  object-fit: cover;
+  background: #f1f5f9;
+}
+
+.table-avatar-placeholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  font-size: 0.7rem;
+}
+
+// ─── Buttons ───────────────────────────────────────────────────────────────────
+
+.btn-primary {
+  background-color: $primary;
+  border-color: $primary;
+
+  &:hover, &:focus {
+    background-color: #1f2937;
+    border-color: #1f2937;
+  }
+}
+
+.btn-aaa {
+  background-color: $primary;
+  border-color: $primary;
+  color: #fff;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-size: 0.85rem;
+
+  &:hover {
+    background-color: #1f2937;
+    border-color: #1f2937;
     color: #fff;
-    margin: 0;
-    font-weight: 700;
+  }
+}
+
+// ─── Tabs ──────────────────────────────────────────────────────────────────────
+
+.nav-tabs {
+  border-bottom: 1px solid #e5e7eb;
+
+  .nav-link {
+    color: $secondary;
+    font-weight: 500;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 10px 18px;
+    margin-bottom: -1px;
+
+    &:hover {
+      color: $primary;
+      border-color: transparent;
+    }
+
+    &.active {
+      color: $primary;
+      font-weight: 600;
+      background: transparent;
+      border-bottom-color: $primary;
+    }
+  }
+}
+
+// ─── Modals ────────────────────────────────────────────────────────────────────
+
+.modal-content {
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+  padding: 18px 24px;
+  border-bottom: 1px solid #e5e7eb;
+
+  .modal-title {
+    font-family: var(--font-oswald), sans-serif;
+    font-weight: 600;
+    color: $primary;
+  }
+
+  .btn-close {
+    opacity: 0.5;
+  }
+}
+
+.modal-body {
+  padding: 20px 24px;
+}
+
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid #e5e7eb;
+}
+
+// ─── Forms ─────────────────────────────────────────────────────────────────────
+
+.form-control, .form-select {
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+
+  &:focus {
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.08);
+  }
+}
+
+.form-label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+// ─── Login Page ────────────────────────────────────────────────────────────────
+
+.login-page {
+  min-height: 100vh;
+  background: linear-gradient(160deg, #111827 0%, #1f2937 45%, #f8fafc 45%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.login-card {
+  background: #ffffff;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  max-width: 420px;
+  width: 100%;
+
+  .login-header {
+    background: linear-gradient(135deg, #111827, #1f2937);
+    padding: 32px 28px 28px;
+    text-align: center;
+
+    .login-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid rgba(255, 255, 255, 0.2);
+      margin-bottom: 16px;
+    }
+
+    .login-school-name {
+      font-family: var(--font-oswald), sans-serif;
+      color: #fff;
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin: 0 0 4px;
+    }
+
+    .login-tagline {
+      color: #9ca3af;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin: 0;
+    }
+
+    .login-portal-label {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 4px 14px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      color: #d1d5db;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+  }
+
+  .login-body {
+    padding: 28px;
+  }
+
+  .login-footer {
+    text-align: center;
+    padding: 0 28px 24px;
+
+    p {
+      color: #94a3b8;
+      font-size: 0.75rem;
+      margin: 0;
+    }
+
+    .developer-credit {
+      margin-top: 8px;
+      color: #64748b;
+      font-size: 0.72rem;
+
+      strong {
+        color: $primary;
+      }
+    }
+  }
+}
+
+// ─── Loading Screen ────────────────────────────────────────────────────────────
+
+.loading-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: $body-bg;
+  gap: 16px;
+
+  .loading-logo {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .loading-text {
+    color: $secondary;
+    font-size: 0.9rem;
+  }
+}
+
+// ─── Notice Cards ──────────────────────────────────────────────────────────────
+
+.notice-card {
+  @extend .app-card;
+  height: 100%;
+  transition: transform 0.15s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  .notice-date {
+    color: $secondary;
+    font-size: 0.8rem;
+  }
+
+  .notice-title {
+    font-family: var(--font-oswald), sans-serif;
+    font-weight: 600;
+    color: $primary;
+    margin: 8px 0;
+  }
+
+  .notice-content {
+    color: #64748b;
+    font-size: 0.9rem;
+  }
+}
+
+// ─── Exam List ─────────────────────────────────────────────────────────────────
+
+.exam-list-item {
+  border: none;
+  border-bottom: 1px solid #f1f5f9;
+  padding: 14px 18px;
+  cursor: pointer;
+  transition: background 0.12s ease;
+
+  &:hover {
+    background: #f8fafc;
+  }
+
+  &.active {
+    background: #f1f5f9;
+    border-left: 3px solid $primary;
+  }
+}
+
+// ─── Timetable Grid ────────────────────────────────────────────────────────────
+
+.timetable-grid {
+  th, td {
+    text-align: center;
+    vertical-align: middle;
+    font-size: 0.85rem;
+  }
+
+  .period-cell {
+    background: #f8fafc;
+    font-weight: 600;
+    color: $secondary;
+  }
+
+  .entry-cell {
+    background: #fff;
+    min-width: 120px;
+
+    .subject-name {
+      font-weight: 600;
+      color: $primary;
+      font-size: 0.85rem;
+    }
+
+    .teacher-name {
+      color: $secondary;
+      font-size: 0.75rem;
+    }
+  }
+}
+
+// ─── Fee badges ────────────────────────────────────────────────────────────────
+
+.badge-paid {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.badge-unpaid {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+// ─── Accordion (Classes page) ──────────────────────────────────────────────────
+
+.accordion-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px !important;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.accordion-button {
+  font-weight: 600;
+  border-radius: 12px !important;
+
+  &:not(.collapsed) {
+    box-shadow: none;
+  }
+}
+
+// ─── List group (exams) ────────────────────────────────────────────────────────
+
+.list-group-item {
+  border-color: #f1f5f9;
+}
+
+// ─── Scrollbar ─────────────────────────────────────────────────────────────────
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+
+  &:hover {
+    background: #9ca3af;
   }
 }

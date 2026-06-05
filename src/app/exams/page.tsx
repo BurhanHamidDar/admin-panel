@@ -5,6 +5,8 @@ import { FaPlus, FaEdit, FaClipboardList } from 'react-icons/fa';
 import { fetchExams, createExam, fetchClasses, fetchSubjects, addExamSubject, fetchExamSubjects, fetchPendingMarksheets, deleteExam } from '@/services/api';
 import MarksEntryModal from '@/components/MarksEntryModal';
 import { FaTrash } from 'react-icons/fa';
+import PageHeader from '@/components/PageHeader';
+import BrandFooter from '@/components/BrandFooter';
 
 export default function ExamsPage() {
     const [exams, setExams] = useState<any[]>([]);
@@ -159,23 +161,26 @@ export default function ExamsPage() {
 
     return (
         <Container fluid>
-            <div className="d-flex justify-content-between align-items-center mb-4">
-                <h2 className="text-white fw-bold">Exams & Results</h2>
-                <Button variant="primary" onClick={() => setShowCreateModal(true)}>
-                    <FaPlus className="me-2" /> Create New Exam
-                </Button>
-            </div>
+            <PageHeader
+                title="Exams & Results"
+                subtitle="Create exams, configure subjects and manage marksheets"
+                action={
+                    <Button variant="primary" onClick={() => setShowCreateModal(true)}>
+                        <FaPlus className="me-2" /> Create Exam
+                    </Button>
+                }
+            />
 
             <Row>
                 <Col md={3}>
-                    <Card className="bg-dark-navy border-0 text-white mb-3">
-                        <Card.Header className="fw-bold border-secondary">Exams List</Card.Header>
+                    <Card className="app-card mb-3">
+                        <Card.Header className="fw-bold">Exams List</Card.Header>
                         <Card.Body className="p-0">
-                            <div className="list-group list-group-flush bg-dark">
+                            <div className="list-group list-group-flush">
                                 {exams.map(ex => (
                                     <button
                                         key={ex.id}
-                                        className={`list-group-item list-group-item-action bg-dark text-white border-secondary ${selectedExam?.id === ex.id ? 'active' : ''}`}
+                                        className={`list-group-item list-group-item-action exam-list-item ${selectedExam?.id === ex.id ? 'active' : ''}`}
                                         onClick={() => setSelectedExam(ex)}
                                     >
                                         <div className="d-flex justify-content-between align-items-center">
@@ -201,8 +206,8 @@ export default function ExamsPage() {
 
                 <Col md={9}>
                     {selectedExam ? (
-                        <Card className="bg-dark-navy border-0 text-white shadow-sm">
-                            <Card.Header className="border-secondary pb-0">
+                        <Card className="app-card">
+                            <Card.Header className="pb-0">
                                 <div className="d-flex justify-content-between align-items-center mb-3">
                                     <h5 className="mb-0">Managing: {selectedExam.name}</h5>
 
@@ -236,7 +241,7 @@ export default function ExamsPage() {
                                 <ul className="nav nav-tabs border-bottom-0">
                                     <li className="nav-item">
                                         <button
-                                            className={`nav-link text-white ${activeTab === 'config' ? 'active bg-dark border-secondary border-bottom-0' : ''}`}
+                                            className={`nav-link ${activeTab === 'config' ? 'active' : ''}`}
                                             onClick={() => setActiveTab('config')}
                                         >
                                             Subjects & Marks
@@ -244,7 +249,7 @@ export default function ExamsPage() {
                                     </li>
                                     <li className="nav-item">
                                         <button
-                                            className={`nav-link text-white ${activeTab === 'results' ? 'active bg-dark border-secondary border-bottom-0' : ''}`}
+                                            className={`nav-link ${activeTab === 'results' ? 'active' : ''}`}
                                             onClick={() => setActiveTab('results')}
                                         >
                                             Student Marksheets
@@ -252,7 +257,7 @@ export default function ExamsPage() {
                                     </li>
                                 </ul>
                             </Card.Header>
-                            <Card.Body className="bg-dark border-top border-secondary">
+                            <Card.Body>
                                 {activeTab === 'config' ? (
                                     <>
                                         <div className="d-flex justify-content-end mb-3">
@@ -260,7 +265,7 @@ export default function ExamsPage() {
                                                 <FaPlus className="me-2" /> Add Subject
                                             </Button>
                                         </div>
-                                        <Table hover variant="dark" responsive>
+                                        <Table hover className="app-table" responsive>
                                             <thead>
                                                 <tr>
                                                     <th>Class</th>
@@ -300,7 +305,7 @@ export default function ExamsPage() {
                                                 <Col md={3}>
                                                     <Form.Label>Class</Form.Label>
                                                     <Form.Select
-                                                        className="bg-dark text-white border-secondary"
+                                                       
                                                         value={selectedClassForResults}
                                                         onChange={(e) => {
                                                             setSelectedClassForResults(e.target.value);
@@ -314,7 +319,7 @@ export default function ExamsPage() {
                                                 <Col md={3}>
                                                     <Form.Label>Section</Form.Label>
                                                     <Form.Select
-                                                        className="bg-dark text-white border-secondary"
+                                                       
                                                         value={selectedSectionForResults}
                                                         onChange={(e) => setSelectedSectionForResults(e.target.value)}
                                                         disabled={!selectedClassForResults}
@@ -337,7 +342,7 @@ export default function ExamsPage() {
                                         </div>
 
                                         {selectedClassForResults && (
-                                            <Table hover variant="dark" responsive>
+                                            <Table hover className="app-table" responsive>
                                                 <thead>
                                                     <tr>
                                                         <th>Admission No.</th>
@@ -388,33 +393,33 @@ export default function ExamsPage() {
 
             {/* Create Exam Modal */}
             <Modal show={showCreateModal} onHide={() => setShowCreateModal(false)} centered>
-                <Modal.Header closeButton className="bg-dark text-white border-secondary">
+                <Modal.Header closeButton>
                     <Modal.Title>Create New Exam</Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="bg-dark text-white">
+                <Modal.Body>
                     <Form.Group className="mb-3">
                         <Form.Label>Exam Name</Form.Label>
-                        <Form.Control type="text" placeholder="e.g. Mid-Term 2024" className="bg-dark text-white border-secondary"
+                        <Form.Control type="text" placeholder="e.g. Mid-Term 2024"
                             value={newExam.name} onChange={e => setNewExam({ ...newExam, name: e.target.value })} />
                     </Form.Group>
                     <Row>
                         <Col>
                             <Form.Group className="mb-3">
                                 <Form.Label>Start Date</Form.Label>
-                                <Form.Control type="date" className="bg-dark text-white border-secondary"
+                                <Form.Control type="date"
                                     value={newExam.start_date} onChange={e => setNewExam({ ...newExam, start_date: e.target.value })} />
                             </Form.Group>
                         </Col>
                         <Col>
                             <Form.Group className="mb-3">
                                 <Form.Label>End Date</Form.Label>
-                                <Form.Control type="date" className="bg-dark text-white border-secondary"
+                                <Form.Control type="date"
                                     value={newExam.end_date} onChange={e => setNewExam({ ...newExam, end_date: e.target.value })} />
                             </Form.Group>
                         </Col>
                     </Row>
                 </Modal.Body>
-                <Modal.Footer className="bg-dark border-secondary">
+                <Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowCreateModal(false)}>Cancel</Button>
                     <Button variant="primary" onClick={handleCreateExam}>Create Exam</Button>
                 </Modal.Footer>
@@ -422,13 +427,13 @@ export default function ExamsPage() {
 
             {/* Add Subject Modal */}
             <Modal show={showAddSubjectModal} onHide={() => setShowAddSubjectModal(false)} centered>
-                <Modal.Header closeButton className="bg-dark text-white border-secondary">
+                <Modal.Header closeButton>
                     <Modal.Title>Add Subject to Exam</Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="bg-dark text-white">
+                <Modal.Body>
                     <Form.Group className="mb-3">
                         <Form.Label>Class</Form.Label>
-                        <Form.Select className="bg-dark text-white border-secondary"
+                        <Form.Select
                             value={newSubject.class_id} onChange={e => setNewSubject({ ...newSubject, class_id: e.target.value })}>
                             <option value="">Select Class</option>
                             {classes.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
@@ -436,7 +441,7 @@ export default function ExamsPage() {
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label>Subject</Form.Label>
-                        <Form.Select className="bg-dark text-white border-secondary"
+                        <Form.Select
                             value={newSubject.subject_id} onChange={e => setNewSubject({ ...newSubject, subject_id: e.target.value })}>
                             <option value="">Select Subject</option>
                             {subjects.map(s => <option key={s.id} value={s.id}>{s.name} ({s.code})</option>)}
@@ -449,25 +454,25 @@ export default function ExamsPage() {
                         <Col>
                             <Form.Group className="mb-3">
                                 <Form.Label>Max Marks</Form.Label>
-                                <Form.Control type="number" className="bg-dark text-white border-secondary"
+                                <Form.Control type="number"
                                     value={newSubject.max_marks || ''} onChange={e => setNewSubject({ ...newSubject, max_marks: e.target.value ? parseInt(e.target.value) : 0 })} />
                             </Form.Group>
                         </Col>
                         <Col>
                             <Form.Group className="mb-3">
                                 <Form.Label>Pass Marks</Form.Label>
-                                <Form.Control type="number" className="bg-dark text-white border-secondary"
+                                <Form.Control type="number"
                                     value={newSubject.pass_marks || ''} onChange={e => setNewSubject({ ...newSubject, pass_marks: e.target.value ? parseInt(e.target.value) : 0 })} />
                             </Form.Group>
                         </Col>
                     </Row>
                     <Form.Group className="mb-3">
                         <Form.Label>Exam Date</Form.Label>
-                        <Form.Control type="date" className="bg-dark text-white border-secondary"
+                        <Form.Control type="date"
                             value={newSubject.exam_date} onChange={e => setNewSubject({ ...newSubject, exam_date: e.target.value })} />
                     </Form.Group>
                 </Modal.Body>
-                <Modal.Footer className="bg-dark border-secondary">
+                <Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowAddSubjectModal(false)}>Cancel</Button>
                     <Button variant="success" onClick={handleAddSubject} disabled={!newSubject.class_id || !newSubject.subject_id}>Add Subject</Button>
                 </Modal.Footer>
@@ -489,18 +494,19 @@ export default function ExamsPage() {
 
             {/* Confirmation Modal for Approval */}
             <Modal show={showUploadModal} onHide={() => setShowUploadModal(false)} centered>
-                <Modal.Header closeButton className="bg-dark text-white border-secondary">
+                <Modal.Header closeButton>
                     <Modal.Title>Confirm Approval</Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="bg-dark text-white">
+                <Modal.Body>
                     <p>Are you sure you want to approve the result for <strong>{selectedStudentForUpload?.name}</strong>?</p>
                     <p className="text-muted small">This will make the result visible to the student immediately.</p>
                 </Modal.Body>
-                <Modal.Footer className="bg-dark border-secondary">
+                <Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowUploadModal(false)}>Cancel</Button>
                     <Button variant="success" onClick={handleApproveFromDashboard}>Confirm Approval</Button>
                 </Modal.Footer>
             </Modal>
+            <BrandFooter />
         </Container>
     );
 }

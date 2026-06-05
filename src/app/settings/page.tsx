@@ -4,6 +4,8 @@ import { Container, Card, Tabs, Tab, Form, Button, Alert, Table, Row, Col, Spinn
 import { fetchSettings, updateSettings, fetchDisabledAccounts, disableAccount, enableAccount } from '@/services/api';
 import { FaSave, FaBan, FaCheck, FaExclamationTriangle, FaSearch } from 'react-icons/fa';
 import UserSearchModal from '@/components/UserSearchModal';
+import PageHeader from '@/components/PageHeader';
+import BrandFooter from '@/components/BrandFooter';
 
 export default function SettingsPage() {
     const [settings, setSettings] = useState<any>({});
@@ -92,11 +94,11 @@ export default function SettingsPage() {
 
     return (
         <Container fluid>
-            <h2 className="mb-4 text-white">System Settings</h2>
+            <PageHeader title="Settings" subtitle="System configuration and account controls" />
 
             {msg.text && <Alert variant={msg.type} onClose={() => setMsg({ type: '', text: '' })} dismissible>{msg.text}</Alert>}
 
-            <Card className="bg-dark text-white border-0 shadow-lg">
+            <Card className="app-card">
                 <Card.Body>
                     <Tabs defaultActiveKey="app_control" id="settings-tabs" className="mb-4 custom-tabs">
 
@@ -104,7 +106,7 @@ export default function SettingsPage() {
                         <Tab eventKey="app_control" title="App Control">
                             <h5 className="mb-3 text-warning"><FaExclamationTriangle /> Critical Controls</h5>
 
-                            <Form.Group className="mb-4 p-3 border border-secondary rounded">
+                            <Form.Group className="mb-4 p-3 border rounded" style={{ background: '#f8fafc' }}>
                                 <Form.Check
                                     type="switch"
                                     id="app_blocked"
@@ -124,7 +126,7 @@ export default function SettingsPage() {
                                     rows={2}
                                     value={settings.maintenance_message || ''}
                                     onChange={(e) => handleSettingChange('maintenance_message', e.target.value)}
-                                    className="bg-secondary text-white border-0"
+                                   
                                 />
                             </Form.Group>
                         </Tab>
@@ -139,7 +141,7 @@ export default function SettingsPage() {
                                             type="number"
                                             value={settings.session_timeout_minutes || 60}
                                             onChange={(e) => handleSettingChange('session_timeout_minutes', parseInt(e.target.value))}
-                                            className="bg-secondary text-white border-0"
+                                           
                                         />
                                     </Form.Group>
                                 </Col>
@@ -150,7 +152,7 @@ export default function SettingsPage() {
                                             type="number"
                                             value={settings.max_login_attempts || 5}
                                             onChange={(e) => handleSettingChange('max_login_attempts', parseInt(e.target.value))}
-                                            className="bg-secondary text-white border-0"
+                                           
                                         />
                                     </Form.Group>
                                 </Col>
@@ -213,9 +215,9 @@ export default function SettingsPage() {
 
                         {/* TAB 4: DISABLED ACCOUNTS */}
                         <Tab eventKey="accounts" title="Disabled Accounts">
-                            <Card className="bg-secondary border-0 mb-4">
+                            <Card className="border mb-4" style={{ background: '#f8fafc' }}>
                                 <Card.Body>
-                                    <h6 className="text-white">Disable a User Account</h6>
+                                    <h6>Disable a User Account</h6>
 
                                     <div className="mb-3">
                                         <Button variant="outline-info" size="sm" onClick={() => setShowSearch(true)}>
@@ -231,7 +233,7 @@ export default function SettingsPage() {
                                                 placeholder="User ID"
                                                 value={targetUserId}
                                                 readOnly
-                                                className="bg-secondary text-white border-0"
+                                               
                                             />
                                             {targetUserName && <Form.Text className="text-info small">Selected: {targetUserName}</Form.Text>}
                                         </Form.Group>
@@ -244,7 +246,7 @@ export default function SettingsPage() {
                                                 value={disableReason}
                                                 onChange={(e) => setDisableReason(e.target.value)}
                                                 required
-                                                className="bg-secondary text-white border-0"
+                                               
                                             />
                                         </Form.Group>
 
@@ -261,7 +263,7 @@ export default function SettingsPage() {
                                 onSelectUser={handleSelectUser}
                             />
 
-                            <Table responsive hover variant="dark">
+                            <Table responsive hover className="app-table">
                                 <thead>
                                     <tr>
                                         <th>User</th>
@@ -276,7 +278,7 @@ export default function SettingsPage() {
                                         <tr key={acc.id}>
                                             <td>
                                                 <div>{acc.profiles?.full_name}</div>
-                                                <small className="text-white-50">{acc.profiles?.email}</small> <Badge bg="secondary">{acc.profiles?.role}</Badge>
+                                                <small className="text-muted">{acc.profiles?.email}</small> <Badge bg="secondary">{acc.profiles?.role}</Badge>
                                             </td>
                                             <td>{acc.reason}</td>
                                             <td>{acc.admin?.full_name}</td>
@@ -297,11 +299,12 @@ export default function SettingsPage() {
 
                         {/* TAB 5: SYSTEM INFO */}
                         <Tab eventKey="info" title="System Info">
-                            <Table bordered variant="dark" className="w-50">
+                            <Table bordered className="app-table w-50">
                                 <tbody>
-                                    <tr><td>App Name</td><td>School Management System (ERP)</td></tr>
+                                    <tr><td>School</td><td>Ayesha Ali Academy</td></tr>
+                                    <tr><td>Tagline</td><td>Above and Ahead</td></tr>
                                     <tr><td>Version</td><td>v1.0.0 (Beta)</td></tr>
-                                    <tr><td>Developed By</td><td>Burhan Hamid</td></tr>
+                                    <tr><td>Developed By</td><td><strong>Burhan Hamid</strong></td></tr>
                                     <tr><td>Last Update</td><td>{new Date().toLocaleDateString()}</td></tr>
                                     <tr><td>Server Status</td><td><Badge bg="success">Online</Badge></td></tr>
                                 </tbody>
@@ -318,6 +321,7 @@ export default function SettingsPage() {
 
                 </Card.Body>
             </Card>
+            <BrandFooter />
         </Container>
     );
 }

@@ -37,10 +37,10 @@ export default function MarksheetUploadModal({ show, handleClose, studentId, stu
 
     return (
         <Modal show={show} onHide={handleClose} centered>
-            <Modal.Header closeButton className="bg-dark text-white border-secondary">
+            <Modal.Header closeButton>
                 <Modal.Title>Upload Marksheet</Modal.Title>
             </Modal.Header>
-            <Modal.Body className="bg-dark text-white">
+            <Modal.Body>
                 <div className="mb-4">
                     <strong>Student:</strong> {studentName}
                 </div>
@@ -52,7 +52,7 @@ export default function MarksheetUploadModal({ show, handleClose, studentId, stu
                     <Form.Control
                         type="url"
                         placeholder="https://drive.google.com/..."
-                        className="bg-dark text-white border-secondary"
+                       
                         value={fileUrl}
                         onChange={(e) => setFileUrl(e.target.value)}
                     />
@@ -61,7 +61,7 @@ export default function MarksheetUploadModal({ show, handleClose, studentId, stu
                     </Form.Text>
                 </Form.Group>
             </Modal.Body>
-            <Modal.Footer className="bg-dark border-secondary">
+            <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose} disabled={loading}>Cancel</Button>
                 <Button variant="primary" onClick={handleSubmit} disabled={loading}>
                     {loading ? <Spinner as="span" animation="border" size="sm" /> : (existingUrl ? 'Update Marksheet' : 'Upload Marksheet')}

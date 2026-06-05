@@ -1,15 +1,16 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { Container, Card, Button, Form, Row, Col, Alert, Modal, ListGroup, Badge } from 'react-bootstrap';
-import { FaPlus, FaTrash, FaBullhorn } from 'react-icons/fa';
+import { Container, Card, Button, Form, Row, Col, Alert, Modal, Badge } from 'react-bootstrap';
+import { FaPlus, FaTrash } from 'react-icons/fa';
 import { fetchNotices, createNotice, deleteNotice } from '@/services/api';
+import PageHeader from '@/components/PageHeader';
+import BrandFooter from '@/components/BrandFooter';
 
 export default function NoticesPage() {
     const [notices, setNotices] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [showModal, setShowModal] = useState(false);
-
     const [newNotice, setNewNotice] = useState({ title: '', content: '', audience: 'all', importance: 'normal' });
 
     const loadNotices = async () => {
@@ -60,23 +61,26 @@ export default function NoticesPage() {
 
     return (
         <Container fluid>
-            <div className="d-flex justify-content-between align-items-center mb-4">
-                <h2 className="text-white fw-bold">Notices Board</h2>
-                <Button variant="primary" onClick={() => setShowModal(true)}>
-                    <FaPlus className="me-2" /> Post New Notice
-                </Button>
-            </div>
+            <PageHeader
+                title="Notice Board"
+                subtitle="Post announcements for students and teachers"
+                action={
+                    <Button variant="primary" onClick={() => setShowModal(true)}>
+                        <FaPlus className="me-2" /> Post Notice
+                    </Button>
+                }
+            />
 
             {error && <Alert variant="danger">{error}</Alert>}
 
             <Row>
                 {notices.map((notice) => (
                     <Col md={6} lg={4} key={notice.id} className="mb-4">
-                        <Card className="h-100 bg-dark-navy border-0 shadow-sm text-white">
-                            <Card.Header className="bg-transparent border-secondary d-flex justify-content-between align-items-center">
+                        <Card className="notice-card">
+                            <Card.Header className="bg-transparent border-0 d-flex justify-content-between align-items-center pt-3 px-3">
                                 <div>
                                     {getImportanceBadge(notice.importance)}
-                                    <span className="ms-2 badge bg-secondary">
+                                    <span className="ms-2 badge bg-light text-dark border">
                                         {notice.target_role && notice.target_role.length > 0
                                             ? notice.target_role.join(' & ').toUpperCase()
                                             : 'ALL'}
@@ -86,11 +90,11 @@ export default function NoticesPage() {
                                     <FaTrash />
                                 </Button>
                             </Card.Header>
-                            <Card.Body>
-                                <Card.Title className="fw-bold">{notice.title}</Card.Title>
-                                <Card.Text className="text-white-50">{notice.content}</Card.Text>
+                            <Card.Body className="pt-0">
+                                <h5 className="notice-title">{notice.title}</h5>
+                                <p className="notice-content">{notice.content}</p>
                             </Card.Body>
-                            <Card.Footer className="bg-transparent border-secondary text-muted small">
+                            <Card.Footer className="bg-transparent border-0 notice-date px-3 pb-3">
                                 Posted on {new Date(notice.created_at).toLocaleDateString()}
                             </Card.Footer>
                         </Card>
@@ -98,22 +102,21 @@ export default function NoticesPage() {
                 ))}
                 {notices.length === 0 && !loading && (
                     <Col>
-                        <Alert variant="secondary" className="text-center">No notices posted yet.</Alert>
+                        <Alert variant="light" className="text-center border">No notices posted yet.</Alert>
                     </Col>
                 )}
             </Row>
 
             <Modal show={showModal} onHide={() => setShowModal(false)} centered size="lg">
-                <Modal.Header closeButton className="bg-dark text-white border-secondary">
+                <Modal.Header closeButton>
                     <Modal.Title>Create Notice</Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="bg-dark text-white">
+                <Modal.Body>
                     <Form.Group className="mb-3">
                         <Form.Label>Title</Form.Label>
                         <Form.Control
                             value={newNotice.title}
                             onChange={(e) => setNewNotice({ ...newNotice, title: e.target.value })}
-                            className="bg-dark border-secondary text-white"
                         />
                     </Form.Group>
                     <Row>
@@ -123,7 +126,6 @@ export default function NoticesPage() {
                                 <Form.Select
                                     value={newNotice.audience}
                                     onChange={(e) => setNewNotice({ ...newNotice, audience: e.target.value })}
-                                    className="bg-dark border-secondary text-white"
                                 >
                                     <option value="all">All</option>
                                     <option value="teachers">Teachers</option>
@@ -138,7 +140,6 @@ export default function NoticesPage() {
                                 <Form.Select
                                     value={newNotice.importance}
                                     onChange={(e) => setNewNotice({ ...newNotice, importance: e.target.value })}
-                                    className="bg-dark border-secondary text-white"
                                 >
                                     <option value="normal">Normal</option>
                                     <option value="medium">Medium</option>
@@ -154,15 +155,15 @@ export default function NoticesPage() {
                             rows={4}
                             value={newNotice.content}
                             onChange={(e) => setNewNotice({ ...newNotice, content: e.target.value })}
-                            className="bg-dark border-secondary text-white"
                         />
                     </Form.Group>
                 </Modal.Body>
-                <Modal.Footer className="bg-dark border-secondary">
+                <Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowModal(false)}>Cancel</Button>
                     <Button variant="primary" onClick={handleCreate} disabled={!newNotice.title}>Post Notice</Button>
                 </Modal.Footer>
             </Modal>
+            <BrandFooter />
         </Container>
     );
 }

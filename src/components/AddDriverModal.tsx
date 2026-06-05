@@ -111,10 +111,10 @@ const AddDriverModal: React.FC<AddDriverModalProps> = ({ show, handleClose, onSu
 
     return (
         <Modal show={show} onHide={handleClose} size="lg" centered>
-            <Modal.Header closeButton className="bg-dark text-white border-secondary">
+            <Modal.Header closeButton>
                 <Modal.Title>{driverToEdit ? 'Edit Driver' : 'Add New Driver'}</Modal.Title>
             </Modal.Header>
-            <Modal.Body className="bg-dark text-white">
+            <Modal.Body>
                 {error && <Alert variant="danger">{error}</Alert>}
                 <Form onSubmit={handleSubmit}>
                     <div className="mb-4 text-center">
@@ -125,7 +125,7 @@ const AddDriverModal: React.FC<AddDriverModalProps> = ({ show, handleClose, onSu
                             {formData.avatar_url ? (
                                 <img src={formData.avatar_url} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                             ) : (
-                                <span className="text-white-50">No Photo</span>
+                                <span className="text-muted">No Photo</span>
                             )}
                         </div>
                         <Form.Label className="btn btn-outline-light btn-sm">
@@ -138,44 +138,44 @@ const AddDriverModal: React.FC<AddDriverModalProps> = ({ show, handleClose, onSu
                         <Col md={6}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Full Name *</Form.Label>
-                                <Form.Control required name="name" value={formData.name} onChange={handleChange} className="bg-dark border-secondary text-white" />
+                                <Form.Control required name="name" value={formData.name} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                         {/* ... Existing Fields ... */}
                         <Col md={6}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Parentage / Guardian</Form.Label>
-                                <Form.Control name="parentage" value={formData.parentage} onChange={handleChange} className="bg-dark border-secondary text-white" />
+                                <Form.Control name="parentage" value={formData.parentage} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                         <Col md={6}>
                             <Form.Group className="mb-3">
                                 <Form.Label>License Number *</Form.Label>
-                                <Form.Control required name="license_number" value={formData.license_number} onChange={handleChange} className="bg-dark border-secondary text-white" />
+                                <Form.Control required name="license_number" value={formData.license_number} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                         <Col md={6}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Phone Number *</Form.Label>
-                                <Form.Control required name="phone_number" value={formData.phone_number} onChange={handleChange} className="bg-dark border-secondary text-white" />
+                                <Form.Control required name="phone_number" value={formData.phone_number} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                         <Col md={6}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Date of Birth</Form.Label>
-                                <Form.Control type="date" name="dob" value={formData.dob} onChange={handleChange} className="bg-dark border-secondary text-white" />
+                                <Form.Control type="date" name="dob" value={formData.dob} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                         <Col md={6}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Joining Date</Form.Label>
-                                <Form.Control type="date" name="joining_date" value={formData.joining_date} onChange={handleChange} className="bg-dark border-secondary text-white" />
+                                <Form.Control type="date" name="joining_date" value={formData.joining_date} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                         <Col md={6}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Assign Bus</Form.Label>
-                                <Form.Select name="assigned_bus_id" value={formData.assigned_bus_id} onChange={handleChange} className="bg-dark border-secondary text-white">
+                                <Form.Select name="assigned_bus_id" value={formData.assigned_bus_id} onChange={handleChange}>
                                     <option value="">No Bus Assigned</option>
                                     {buses.map(b => (
                                         <option key={b.id} value={b.id}>
@@ -190,7 +190,7 @@ const AddDriverModal: React.FC<AddDriverModalProps> = ({ show, handleClose, onSu
                         <Col md={12}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Address</Form.Label>
-                                <Form.Control as="textarea" rows={2} name="address" value={formData.address} onChange={handleChange} className="bg-dark border-secondary text-white" />
+                                <Form.Control as="textarea" rows={2} name="address" value={formData.address} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                     </Row>

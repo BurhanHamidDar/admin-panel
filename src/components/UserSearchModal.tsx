@@ -65,10 +65,10 @@ export default function UserSearchModal({ show, onHide, onSelectUser }: UserSear
 
     return (
         <Modal show={show} onHide={onHide} centered size="lg">
-            <Modal.Header closeButton className="bg-dark text-white border-secondary">
+            <Modal.Header closeButton>
                 <Modal.Title>Search User to Disable</Modal.Title>
             </Modal.Header>
-            <Modal.Body className="bg-dark text-white">
+            <Modal.Body>
                 <Tabs
                     id="user-search-tabs"
                     activeKey={key}
@@ -84,13 +84,13 @@ export default function UserSearchModal({ show, onHide, onSelectUser }: UserSear
                 </Tabs>
 
                 <InputGroup className="mb-3">
-                    <InputGroup.Text className="bg-secondary text-white border-0"><FaSearch /></InputGroup.Text>
+                    <InputGroup.Text><FaSearch /></InputGroup.Text>
                     <Form.Control
                         type="text"
                         placeholder={`Search ${key} by name...`}
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="bg-secondary text-white border-0"
+                       
                         autoFocus
                     />
                 </InputGroup>
@@ -112,7 +112,7 @@ export default function UserSearchModal({ show, onHide, onSelectUser }: UserSear
                                 key={item.profile_id}
                                 action
                                 onClick={() => handleSelect(item)}
-                                className="bg-dark text-white border-secondary d-flex justify-content-between align-items-center"
+                                className="d-flex justify-content-between align-items-center"
                             >
                                 <div>
                                     <h6 className="mb-0">{item.profiles?.full_name}</h6>

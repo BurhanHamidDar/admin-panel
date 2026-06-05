@@ -161,10 +161,10 @@ const AddStudentModal: React.FC<AddStudentModalProps> = ({ show, handleClose, on
 
     return (
         <Modal show={show} onHide={handleClose} size="lg" centered>
-            <Modal.Header closeButton className="bg-dark text-white border-secondary">
+            <Modal.Header closeButton>
                 <Modal.Title>{studentToEdit ? 'Edit Student' : 'Add New Student'}</Modal.Title>
             </Modal.Header>
-            <Modal.Body className="bg-dark text-white">
+            <Modal.Body>
                 {error && <Alert variant="danger">{error}</Alert>}
                 <Form onSubmit={handleSubmit}>
                     <div className="mb-4 text-center">
@@ -175,7 +175,7 @@ const AddStudentModal: React.FC<AddStudentModalProps> = ({ show, handleClose, on
                             {formData.avatar_url ? (
                                 <img src={formData.avatar_url} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                             ) : (
-                                <span className="text-white-50">No Photo</span>
+                                <span className="text-muted">No Photo</span>
                             )}
                         </div>
                         <Form.Label className="btn btn-outline-light btn-sm">
@@ -188,39 +188,39 @@ const AddStudentModal: React.FC<AddStudentModalProps> = ({ show, handleClose, on
                         <Col md={6}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Full Name *</Form.Label>
-                                <Form.Control required name="full_name" value={formData.full_name} onChange={handleChange} className="bg-dark border-secondary text-white" />
+                                <Form.Control required name="full_name" value={formData.full_name} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                         {/* ... Existing Fields ... */}
                         <Col md={6}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Email (Username) *</Form.Label>
-                                <Form.Control required type="email" name="email" value={formData.email} onChange={handleChange} className="bg-dark border-secondary text-white" disabled={!!studentToEdit} />
+                                <Form.Control required type="email" name="email" value={formData.email} onChange={handleChange} disabled={!!studentToEdit} />
                             </Form.Group>
                         </Col>
                         <Col md={6}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Admission No *</Form.Label>
-                                <Form.Control required name="admission_no" value={formData.admission_no} onChange={handleChange} className="bg-dark border-secondary text-white" />
+                                <Form.Control required name="admission_no" value={formData.admission_no} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                         <Col md={6}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Roll No *</Form.Label>
-                                <Form.Control required name="roll_no" value={formData.roll_no} onChange={handleChange} className="bg-dark border-secondary text-white" />
+                                <Form.Control required name="roll_no" value={formData.roll_no} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                         <Col md={6}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Date of Birth *</Form.Label>
-                                <Form.Control required type="date" name="date_of_birth" value={formData.date_of_birth} onChange={handleChange} className="bg-dark border-secondary text-white" />
+                                <Form.Control required type="date" name="date_of_birth" value={formData.date_of_birth} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                         {/* ... Class Section ... */}
                         <Col md={6}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Class *</Form.Label>
-                                <Form.Select required name="class_id" value={formData.class_id} onChange={handleClassChange} className="bg-dark border-secondary text-white">
+                                <Form.Select required name="class_id" value={formData.class_id} onChange={handleClassChange}>
                                     <option value="">Select Class</option>
                                     {classes.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                                 </Form.Select>
@@ -229,13 +229,13 @@ const AddStudentModal: React.FC<AddStudentModalProps> = ({ show, handleClose, on
                         <Col md={6}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Student Phone *</Form.Label>
-                                <Form.Control required name="phone_number" value={formData.phone_number} onChange={handleChange} className="bg-dark border-secondary text-white" />
+                                <Form.Control required name="phone_number" value={formData.phone_number} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                         <Col md={6}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Section</Form.Label>
-                                <Form.Select name="section_id" value={formData.section_id} onChange={handleChange} className="bg-dark border-secondary text-white" disabled={!formData.class_id}>
+                                <Form.Select name="section_id" value={formData.section_id} onChange={handleChange} disabled={!formData.class_id}>
                                     <option value="">Select Section</option>
                                     {sections.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
                                 </Form.Select>
@@ -246,19 +246,19 @@ const AddStudentModal: React.FC<AddStudentModalProps> = ({ show, handleClose, on
                         <Col md={6}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Parent Name *</Form.Label>
-                                <Form.Control required name="parent_name" value={formData.parent_name} onChange={handleChange} className="bg-dark border-secondary text-white" />
+                                <Form.Control required name="parent_name" value={formData.parent_name} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                         <Col md={6}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Parent Phone *</Form.Label>
-                                <Form.Control required name="parent_phone" value={formData.parent_phone} onChange={handleChange} className="bg-dark border-secondary text-white" />
+                                <Form.Control required name="parent_phone" value={formData.parent_phone} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                         <Col md={12}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Address</Form.Label>
-                                <Form.Control as="textarea" rows={2} name="address" value={formData.address} onChange={handleChange} className="bg-dark border-secondary text-white" />
+                                <Form.Control as="textarea" rows={2} name="address" value={formData.address} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                     </Row>

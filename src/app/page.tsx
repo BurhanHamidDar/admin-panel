@@ -1,100 +1,116 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Card, Spinner, Alert } from 'react-bootstrap';
-import { FaUserGraduate, FaChalkboardTeacher, FaSchool, FaBus, FaRupeeSign } from 'react-icons/fa';
+import Link from 'next/link';
+import { Row, Col, Card, Spinner, Alert } from 'react-bootstrap';
+import {
+    FaUserGraduate, FaChalkboardTeacher, FaSchool, FaBus,
+    FaRupeeSign, FaPlus, FaBullhorn, FaMarker, FaClipboardList
+} from 'react-icons/fa';
 import { fetchDashboardStats } from '@/services/api';
+import PageHeader from '@/components/PageHeader';
+import BrandFooter from '@/components/BrandFooter';
 
 export default function Dashboard() {
-  const [stats, setStats] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+    const [stats, setStats] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
 
-  useEffect(() => {
-    fetchDashboardStats()
-      .then(setStats)
-      .catch(err => setError(err.message))
-      .finally(() => setLoading(false));
-  }, []);
+    useEffect(() => {
+        fetchDashboardStats()
+            .then(setStats)
+            .catch(err => setError(err.message))
+            .finally(() => setLoading(false));
+    }, []);
 
-  if (loading) return <div className="text-center py-5"><Spinner animation="border" variant="light" /></div>;
-  if (error) return <Alert variant="danger">{error}</Alert>;
+    if (loading) {
+        return (
+            <div className="text-center py-5">
+                <Spinner animation="border" style={{ color: '#111827' }} />
+            </div>
+        );
+    }
+    if (error) return <Alert variant="danger">{error}</Alert>;
 
-  const StatCard = ({ title, count, icon, color }: any) => (
-    <Col md={3} className="mb-4">
-      <Card className={`border-0 shadow-sm h-100 bg-${color} text-white`}>
-        <Card.Body className="d-flex align-items-center justify-content-between">
-          <div>
-            <h6 className="text-uppercase mb-1 opacity-75">{title}</h6>
-            <h2 className="display-4 fw-bold mb-0">{count}</h2>
-          </div>
-          <div className="opacity-50 display-6">
-            {icon}
-          </div>
-        </Card.Body>
-      </Card>
-    </Col>
-  );
+    const statCards = [
+        { title: 'Students', count: stats?.students || 0, icon: <FaUserGraduate />, color: 'blue' },
+        { title: 'Teachers', count: stats?.teachers || 0, icon: <FaChalkboardTeacher />, color: 'orange' },
+        { title: 'Classes', count: stats?.classes || 0, icon: <FaSchool />, color: 'purple' },
+        { title: 'Buses', count: stats?.buses || 0, icon: <FaBus />, color: 'teal' },
+    ];
 
-  return (
-    <Container fluid>
-      <h2 className="text-white fw-bold mb-4">Admin Dashboard</h2>
-      <Row>
-        <StatCard
-          title="Total Students"
-          count={stats?.students || 0}
-          icon={<FaUserGraduate />}
-          color="primary"
-        />
-        <StatCard
-          title="Total Teachers"
-          count={stats?.teachers || 0}
-          icon={<FaChalkboardTeacher />}
-          color="warning" // Warning is yellow/orange
-        />
-        <StatCard
-          title="Active Classes"
-          count={stats?.classes || 0}
-          icon={<FaSchool />}
-          color="info"
-        />
-        <StatCard
-          title="School Buses"
-          count={stats?.buses || 0}
-          icon={<FaBus />}
-          color="danger"
-        />
-      </Row>
+    const quickActions = [
+        { href: '/students', label: 'Students', icon: <FaUserGraduate />, bg: '#e0f2fe', color: '#0284c7' },
+        { href: '/fees', label: 'Fees', icon: <FaRupeeSign />, bg: '#cffafe', color: '#0891b2' },
+        { href: '/exams', label: 'Exams', icon: <FaMarker />, bg: '#f3e8ff', color: '#9333ea' },
+        { href: '/notices', label: 'Notices', icon: <FaBullhorn />, bg: '#ffedd5', color: '#ea580c' },
+        { href: '/attendance', label: 'Attendance', icon: <FaClipboardList />, bg: '#dcfce7', color: '#16a34a' },
+        { href: '/teachers', label: 'Add Teacher', icon: <FaPlus />, bg: '#e0e7ff', color: '#4338ca' },
+    ];
 
-      <Row>
-        <Col md={6} className="mb-4">
-          <Card className="bg-dark-navy text-white border-0 shadow-sm h-100">
-            <Card.Header className="border-secondary fw-bold">
-              <FaRupeeSign className="me-2" /> Fee Collection
-            </Card.Header>
-            <Card.Body>
-              <h3 className="text-success fw-bold">₹ {stats?.total_fees_collected?.toLocaleString() || 0}</h3>
-              <p className="text-muted">Total fees collected across all fee types.</p>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col md={6} className="mb-4">
-          <Card className="bg-dark-navy text-white border-0 shadow-sm h-100">
-            <Card.Header className="border-secondary fw-bold">
-              Quick Actions
-            </Card.Header>
-            <Card.Body className="d-flex gap-2 flex-wrap">
-              <a href="/students" className="btn btn-outline-light">Add Student</a>
-              <a href="/fees" className="btn btn-outline-light">Collect Fees</a>
-              <a href="/exams" className="btn btn-outline-light">Create Exam</a>
-              <a href="/notices" className="btn btn-outline-light">Post Notice</a>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
+    return (
+        <>
+            <PageHeader
+                title="Dashboard"
+                subtitle="Overview of Ayesha Ali Academy"
+            />
 
-      <p className="text-center text-muted mt-5 opacity-50">
-        School Management System v1.0 &copy; 2026
-      </p>
-    </Container>
-  );
+            <Row className="g-3 mb-4">
+                {statCards.map((stat) => (
+                    <Col md={6} lg={3} key={stat.title}>
+                        <Card className="stat-card">
+                            <Card.Body>
+                                <div>
+                                    <div className="stat-label">{stat.title}</div>
+                                    <h3 className="stat-value">{stat.count}</h3>
+                                </div>
+                                <div className={`icon-box ${stat.color}`}>
+                                    {stat.icon}
+                                </div>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                ))}
+            </Row>
+
+            <Row className="g-3">
+                <Col lg={5} className="mb-4">
+                    <Card className="app-card h-100">
+                        <Card.Header>
+                            <FaRupeeSign className="me-2" /> Fee Collection
+                        </Card.Header>
+                        <Card.Body>
+                            <h3 className="stat-value text-success mb-2">
+                                &#8377; {stats?.total_fees_collected?.toLocaleString() || 0}
+                            </h3>
+                            <p className="text-muted mb-0" style={{ fontSize: '0.9rem' }}>
+                                Total fees collected across all fee types this session.
+                            </p>
+                        </Card.Body>
+                    </Card>
+                </Col>
+                <Col lg={7} className="mb-4">
+                    <Card className="app-card h-100">
+                        <Card.Header>Quick Actions</Card.Header>
+                        <Card.Body>
+                            <div className="quick-action-grid">
+                                {quickActions.map((action) => (
+                                    <Link key={action.href} href={action.href} className="quick-action-tile">
+                                        <div
+                                            className="tile-icon"
+                                            style={{ background: action.bg, color: action.color }}
+                                        >
+                                            {action.icon}
+                                        </div>
+                                        {action.label}
+                                    </Link>
+                                ))}
+                            </div>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
+
+            <BrandFooter />
+        </>
+    );
 }

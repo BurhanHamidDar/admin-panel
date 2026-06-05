@@ -1,33 +1,58 @@
 "use client";
 import React from 'react';
-import { Form, Dropdown, Image } from 'react-bootstrap';
-import { FaSearch, FaUser } from 'react-icons/fa';
+import Image from 'next/image';
+import { Dropdown } from 'react-bootstrap';
+import { FaUser } from 'react-icons/fa';
+import { supabase } from '@/lib/supabase';
+import { useRouter } from 'next/navigation';
 
 const Navbar = () => {
+    const router = useRouter();
+
+    const handleLogout = async () => {
+        await supabase.auth.signOut();
+        router.push('/login');
+    };
+
     return (
         <div className="top-navbar d-flex justify-content-between align-items-center">
-
+            <div className="d-flex align-items-center gap-3">
+                <Image
+                    src="/school_logo.png"
+                    alt="AAA"
+                    width={32}
+                    height={32}
+                    className="rounded-circle d-md-none"
+                    style={{ border: '2px solid #e5e7eb' }}
+                />
+                <div>
+                    <p className="navbar-school-name mb-0">Admin Panel</p>
+                    <p className="navbar-subtitle mb-0">Ayesha Ali Academy</p>
+                </div>
+            </div>
 
             <div className="user-profile d-flex align-items-center gap-3">
-                <div className="language-selector text-muted small cursor-pointer">
-                    EN
-                </div>
                 <Dropdown align="end">
-                    <Dropdown.Toggle variant="transparent" className="p-0 border-0 text-white d-flex align-items-center gap-2 after-none" id="dropdown-profile">
-                        <div className="bg-primary rounded-circle d-flex align-items-center justify-content-center" style={{ width: 32, height: 32 }}>
-                            <FaUser className="small" />
+                    <Dropdown.Toggle
+                        variant="transparent"
+                        className="p-0 border-0 d-flex align-items-center gap-2"
+                        id="dropdown-profile"
+                    >
+                        <div className="profile-avatar">
+                            <FaUser />
                         </div>
-                        <div>
-                            <div style={{ fontSize: '0.9rem', lineHeight: '1.2' }}>Admin</div>
-                            <div className="text-muted" style={{ fontSize: '0.75rem' }}>Super Admin</div>
+                        <div className="d-none d-sm-block text-start">
+                            <div className="profile-name">Admin</div>
+                            <div className="profile-role">Super Admin</div>
                         </div>
                     </Dropdown.Toggle>
 
-                    <Dropdown.Menu variant="dark">
-                        <Dropdown.Item href="/profile">My Profile</Dropdown.Item>
+                    <Dropdown.Menu>
                         <Dropdown.Item href="/settings">Settings</Dropdown.Item>
                         <Dropdown.Divider />
-                        <Dropdown.Item href="/logout" className="text-danger">Logout</Dropdown.Item>
+                        <Dropdown.Item onClick={handleLogout} className="text-danger">
+                            Logout
+                        </Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             </div>

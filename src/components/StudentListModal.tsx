@@ -44,16 +44,16 @@ const StudentListModal: React.FC<StudentListModalProps> = ({ show, handleClose, 
 
     return (
         <Modal show={show} onHide={handleClose} size="lg" centered>
-            <Modal.Header closeButton className="bg-dark text-white border-secondary">
+            <Modal.Header closeButton>
                 <Modal.Title>{title}</Modal.Title>
             </Modal.Header>
-            <Modal.Body className="bg-dark text-white p-0">
+            <Modal.Body className="p-0">
                 {error && <Alert variant="danger" className="m-3">{error}</Alert>}
 
                 {loading ? (
-                    <div className="text-center py-5"><Spinner animation="border" variant="light" /></div>
+                    <div className="text-center py-5"><Spinner animation="border" style={{ color: "#111827" }} /></div>
                 ) : (
-                    <Table hover variant="dark" className="mb-0 align-middle">
+                    <Table hover className="app-table mb-0 align-middle">
                         <thead>
                             <tr>
                                 <th className="ps-4">Name</th>
@@ -68,18 +68,16 @@ const StudentListModal: React.FC<StudentListModalProps> = ({ show, handleClose, 
                                     <tr key={s.profile_id}>
                                         <td className="ps-4">
                                             <div className="d-flex align-items-center">
-                                                <div className="rounded-circle overflow-hidden bg-secondary border border-secondary me-3" style={{ width: 40, height: 40, minWidth: 40 }}>
-                                                    {s.profiles?.avatar_url ? (
-                                                        <img src={s.profiles.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                                    ) : (
-                                                        <div className="w-100 h-100 d-flex align-items-center justify-content-center text-white-50 small">
-                                                            {s.profiles?.full_name?.charAt(0) || 'S'}
-                                                        </div>
-                                                    )}
-                                                </div>
+                                                {s.profiles?.avatar_url ? (
+                                                    <img src={s.profiles.avatar_url} alt="" className="table-avatar me-3" />
+                                                ) : (
+                                                    <div className="table-avatar-placeholder me-3">
+                                                        {s.profiles?.full_name?.charAt(0) || 'S'}
+                                                    </div>
+                                                )}
                                                 <div>
                                                     <div className="fw-bold">{s.profiles?.full_name}</div>
-                                                    <div className="small text-white-50">{s.profiles?.email}</div>
+                                                    <div className="small text-muted">{s.profiles?.email}</div>
                                                 </div>
                                             </div>
                                         </td>
@@ -102,7 +100,7 @@ const StudentListModal: React.FC<StudentListModalProps> = ({ show, handleClose, 
                     </Table>
                 )}
             </Modal.Body>
-            <Modal.Footer className="bg-dark border-secondary">
+            <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>Close</Button>
             </Modal.Footer>
         </Modal>

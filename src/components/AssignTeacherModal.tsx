@@ -46,10 +46,10 @@ const AssignTeacherModal: React.FC<AssignTeacherModalProps> = ({
 
     return (
         <Modal show={show} onHide={handleClose} centered>
-            <Modal.Header closeButton className="bg-dark text-white border-secondary">
+            <Modal.Header closeButton>
                 <Modal.Title>Assign HR Teacher</Modal.Title>
             </Modal.Header>
-            <Modal.Body className="bg-dark text-white">
+            <Modal.Body>
                 <p className="text-secondary mb-3">
                     Assign a Class Teacher for <strong>{className} - Section {sectionName}</strong>.<br />
                     <small>This teacher will be responsible for marking attendance.</small>
@@ -58,7 +58,7 @@ const AssignTeacherModal: React.FC<AssignTeacherModalProps> = ({
                 <Form.Group>
                     <Form.Label>Select Teacher</Form.Label>
                     <Form.Select
-                        className="bg-dark text-white border-secondary"
+                       
                         value={selectedTeacher}
                         onChange={e => setSelectedTeacher(e.target.value)}
                     >
@@ -71,7 +71,7 @@ const AssignTeacherModal: React.FC<AssignTeacherModalProps> = ({
                     </Form.Select>
                 </Form.Group>
             </Modal.Body>
-            <Modal.Footer className="bg-dark border-secondary">
+            <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>Cancel</Button>
                 <Button variant="success" onClick={handleAssign} disabled={!selectedTeacher || loading}>
                     {loading ? 'Assigning...' : 'Assign Teacher'}

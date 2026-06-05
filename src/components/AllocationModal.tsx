@@ -78,10 +78,10 @@ const AllocationModal: React.FC<AllocationModalProps> = ({ show, handleClose, te
 
     return (
         <Modal show={show} onHide={handleClose} size="lg" centered>
-            <Modal.Header closeButton className="bg-dark text-white border-secondary">
+            <Modal.Header closeButton>
                 <Modal.Title>Manage Allocations: {teacher?.profiles?.full_name}</Modal.Title>
             </Modal.Header>
-            <Modal.Body className="bg-dark text-white">
+            <Modal.Body>
                 {error && <Alert variant="danger">{error}</Alert>}
 
                 <Tabs activeKey={activeTab} onSelect={(k) => setActiveTab(k || 'subject')} className="mb-3 custom-tabs">
@@ -89,11 +89,11 @@ const AllocationModal: React.FC<AllocationModalProps> = ({ show, handleClose, te
                         <p className="text-muted small">Assign this teacher to specific subjects in classes. They will manage marks/homework for these.</p>
 
                         {/* Add New */}
-                        <div className="d-flex gap-2 mb-3 align-items-end p-3 bg-dark-light rounded border border-secondary">
+                        <div className="d-flex gap-2 mb-3 align-items-end p-3 rounded border" style={{ background: '#f8fafc' }}>
                             <div className="flex-grow-1">
                                 <label className="small text-muted">Class</label>
                                 <Form.Select
-                                    className="bg-dark text-white border-secondary"
+                                   
                                     value={newSubjectAlloc.class_id}
                                     onChange={e => setNewSubjectAlloc({ ...newSubjectAlloc, class_id: e.target.value, section_id: '' })}
                                 >
@@ -104,7 +104,7 @@ const AllocationModal: React.FC<AllocationModalProps> = ({ show, handleClose, te
                             <div className="flex-grow-1">
                                 <label className="small text-muted">Section</label>
                                 <Form.Select
-                                    className="bg-dark text-white border-secondary"
+                                   
                                     value={newSubjectAlloc.section_id}
                                     onChange={e => setNewSubjectAlloc({ ...newSubjectAlloc, section_id: e.target.value })}
                                     disabled={!newSubjectAlloc.class_id}
@@ -116,7 +116,7 @@ const AllocationModal: React.FC<AllocationModalProps> = ({ show, handleClose, te
                             <div className="flex-grow-1">
                                 <label className="small text-muted">Subject</label>
                                 <Form.Select
-                                    className="bg-dark text-white border-secondary"
+                                   
                                     value={newSubjectAlloc.subject_id}
                                     onChange={e => setNewSubjectAlloc({ ...newSubjectAlloc, subject_id: e.target.value })}
                                 >
@@ -128,7 +128,7 @@ const AllocationModal: React.FC<AllocationModalProps> = ({ show, handleClose, te
                         </div>
 
                         {/* List */}
-                        <Table hover variant="dark" size="sm">
+                        <Table hover className="app-table" size="sm">
                             <thead>
                                 <tr><th>Class</th><th>Section</th><th>Subject</th><th>Action</th></tr>
                             </thead>

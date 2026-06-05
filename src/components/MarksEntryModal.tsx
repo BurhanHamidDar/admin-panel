@@ -80,16 +80,16 @@ const MarksEntryModal: React.FC<MarksEntryModalProps> = ({
 
     return (
         <Modal show={show} onHide={handleClose} size="lg" centered>
-            <Modal.Header closeButton className="bg-dark text-white border-secondary">
+            <Modal.Header closeButton>
                 <Modal.Title>Enter Marks: {subjectName} ({className})</Modal.Title>
             </Modal.Header>
-            <Modal.Body className="bg-dark text-white">
-                <p className="text-info">Max Marks: {maxMarks}</p>
+            <Modal.Body>
+                <p className="text-muted">Max Marks: <strong>{maxMarks}</strong></p>
                 {error && <Alert variant="danger">{error}</Alert>}
 
                 {loading ? <p>Loading...</p> : (
                     <div className="table-responsive" style={{ maxHeight: '60vh' }}>
-                        <Table variant="dark" hover size="sm">
+                        <Table hover className="app-table" size="sm">
                             <thead>
                                 <tr>
                                     <th>Roll No</th>
@@ -110,7 +110,7 @@ const MarksEntryModal: React.FC<MarksEntryModalProps> = ({
                                                 min={0}
                                                 value={marksMap[s.profile_id] || ''}
                                                 onChange={e => handleMarkChange(s.profile_id, e.target.value)}
-                                                className="bg-secondary text-white border-0"
+                                               
                                             />
                                         </td>
                                     </tr>
@@ -120,7 +120,7 @@ const MarksEntryModal: React.FC<MarksEntryModalProps> = ({
                     </div>
                 )}
             </Modal.Body>
-            <Modal.Footer className="bg-dark border-secondary">
+            <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>Close</Button>
                 <Button variant="success" onClick={handleSave} disabled={saving}>
                     {saving ? 'Saving...' : 'Save Marks'}

@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
+import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
 import { Spinner } from 'react-bootstrap';
 import Navbar from '@/components/Navbar';
@@ -17,19 +18,16 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
             const { data: { session } } = await supabase.auth.getSession();
 
             if (pathname === '/login') {
-                // If on login page, just stop loading and show content
                 setLoading(false);
                 if (session) {
-                    router.push('/'); // Already logged in? Go to dashboard
+                    router.push('/');
                 }
                 return;
             }
 
             if (!session) {
-                // Not logged in and not on login page
                 router.replace('/login');
             } else {
-                // Verify Role for Session Persistence
                 const { data: profile } = await supabase
                     .from('profiles')
                     .select('role')
@@ -52,8 +50,16 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
 
     if (loading) {
         return (
-            <div className="d-flex justify-content-center align-items-center vh-100 bg-dark text-white">
-                <Spinner animation="border" />
+            <div className="loading-screen">
+                <Image
+                    src="/school_logo.png"
+                    alt="Ayesha Ali Academy"
+                    width={64}
+                    height={64}
+                    className="loading-logo"
+                />
+                <Spinner animation="border" size="sm" style={{ color: '#111827' }} />
+                <p className="loading-text">Loading...</p>
             </div>
         );
     }
@@ -63,7 +69,7 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
     }
 
     if (!authenticated) {
-        return null; // Don't render anything while redirecting
+        return null;
     }
 
     return (

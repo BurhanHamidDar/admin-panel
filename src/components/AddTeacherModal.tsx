@@ -100,10 +100,10 @@ const AddTeacherModal: React.FC<AddTeacherModalProps> = ({ show, handleClose, on
 
     return (
         <Modal show={show} onHide={handleClose} size="lg" centered>
-            <Modal.Header closeButton className="bg-dark text-white border-secondary">
+            <Modal.Header closeButton>
                 <Modal.Title>{teacherToEdit ? 'Edit Teacher' : 'Add New Teacher'}</Modal.Title>
             </Modal.Header>
-            <Modal.Body className="bg-dark text-white">
+            <Modal.Body>
                 {error && <Alert variant="danger">{error}</Alert>}
                 <Form onSubmit={handleSubmit}>
                     <div className="mb-4 text-center">
@@ -114,7 +114,7 @@ const AddTeacherModal: React.FC<AddTeacherModalProps> = ({ show, handleClose, on
                             {formData.avatar_url ? (
                                 <img src={formData.avatar_url} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                             ) : (
-                                <span className="text-white-50">No Photo</span>
+                                <span className="text-muted">No Photo</span>
                             )}
                         </div>
                         <Form.Label className="btn btn-outline-light btn-sm">
@@ -127,49 +127,49 @@ const AddTeacherModal: React.FC<AddTeacherModalProps> = ({ show, handleClose, on
                         <Col md={6}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Full Name *</Form.Label>
-                                <Form.Control required name="full_name" value={formData.full_name} onChange={handleChange} className="bg-dark border-secondary text-white" />
+                                <Form.Control required name="full_name" value={formData.full_name} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                         <Col md={6}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Email (Username) *</Form.Label>
-                                <Form.Control required type="email" name="email" value={formData.email} onChange={handleChange} className="bg-dark border-secondary text-white" disabled={!!teacherToEdit} />
+                                <Form.Control required type="email" name="email" value={formData.email} onChange={handleChange} disabled={!!teacherToEdit} />
                             </Form.Group>
                         </Col>
                         <Col md={6}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Date of Birth</Form.Label>
-                                <Form.Control required={!teacherToEdit} type="date" name="dob" value={formData.dob} onChange={handleChange} className="bg-dark border-secondary text-white" />
+                                <Form.Control required={!teacherToEdit} type="date" name="dob" value={formData.dob} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                         <Col md={6}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Joining Date *</Form.Label>
-                                <Form.Control required type="date" name="joining_date" value={formData.joining_date} onChange={handleChange} className="bg-dark border-secondary text-white" />
+                                <Form.Control required type="date" name="joining_date" value={formData.joining_date} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                         <Col md={6}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Qualification</Form.Label>
-                                <Form.Control name="qualification" value={formData.qualification} onChange={handleChange} className="bg-dark border-secondary text-white" />
+                                <Form.Control name="qualification" value={formData.qualification} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                         <Col md={6}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Department</Form.Label>
-                                <Form.Control name="department" value={formData.department} onChange={handleChange} className="bg-dark border-secondary text-white" />
+                                <Form.Control name="department" value={formData.department} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                         <Col md={6}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Phone Number *</Form.Label>
-                                <Form.Control required name="phone_number" value={formData.phone_number} onChange={handleChange} className="bg-dark border-secondary text-white" />
+                                <Form.Control required name="phone_number" value={formData.phone_number} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                         <Col md={12}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Address</Form.Label>
-                                <Form.Control as="textarea" rows={2} name="address" value={formData.address} onChange={handleChange} className="bg-dark border-secondary text-white" />
+                                <Form.Control as="textarea" rows={2} name="address" value={formData.address} onChange={handleChange} />
                             </Form.Group>
                         </Col>
                     </Row>
